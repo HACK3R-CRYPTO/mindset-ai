@@ -7,34 +7,37 @@ import PurchasePage from './pages/purchasePage';
 import KnowledgeSharePage from './pages/knowledgeSharePage';
 import ChatPage from './pages/chatPage';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: 'mnist',
-        element: <Mnist />,
-      },
-      {
-        path: 'purchase',
-        element: <PurchasePage />,
-      },
-      {
-        path: 'knowledge/share',
-        element: <KnowledgeSharePage />,
-      },
-      {
-        path: 'knowledge',
-        element: <ChatPage />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: 'mnist',
+          element: <Mnist />,
+        },
+        {
+          path: 'purchase',
+          element: <PurchasePage />,
+        },
+        {
+          path: 'knowledge/share',
+          element: <KnowledgeSharePage />,
+        },
+        {
+          path: 'knowledge',
+          element: <ChatPage />,
+        },
+      ],
+    },
+  ],
+  { basename: import.meta.env.BASE_URL }
+);
 
 function App() {
   return <RouterProvider router={router} />

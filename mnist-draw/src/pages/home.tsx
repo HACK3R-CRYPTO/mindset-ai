@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Brain, Code, Database, Sparkles, Users } from 'lucide-react';
 import EthContext from '../context/EthContext';
+import { AUTHORIZATION, EXPLORER_ADDRESS_BASE } from '../utils/contracts';
 
 const QuickLink = ({ to, label, description }: { to: string; label: string; description: string }) => (
   <Link
@@ -34,6 +35,10 @@ const FeatureCard = ({ icon: Icon, title, body }: { icon: React.ElementType; tit
 
 function Home() {
   const { isAuthenticated } = useContext(EthContext);
+  const contractExplorerUrl = useMemo(
+    () => `${EXPLORER_ADDRESS_BASE}/${AUTHORIZATION}`,
+    []
+  );
 
   return (
     <div className="space-y-20">
@@ -76,7 +81,7 @@ function Home() {
               )}
               <a
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/0 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white/60 transition hover:border-white/40 hover:text-white"
-                href="https://arbiscan.io/address/0x0b6ae13119fc3b61d6abb115342a1a075e14b6b6"
+                href={contractExplorerUrl}
                 target="_blank"
                 rel="noreferrer"
               >
