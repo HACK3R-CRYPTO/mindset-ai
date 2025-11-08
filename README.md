@@ -3,6 +3,12 @@
 _web3bridge in house hackathon_  
 Mindchain AI showcases how on-chain infrastructure can gate and augment AI experiences. Users can buy usage credits, submit knowledge, run real-time MNIST inference, and access hybrid LLM responses—all backed by Stylus smart contracts and modern AI tooling.
 
+## Why we need it
+- **Centralized AI access is fragile:** Traditional API keys can be overused, leaked, or revoked without warning; on-chain credits give builders continuous, auditable control over usage.
+- **Trust in AI responses matters:** By anchoring the chatbot’s context to an on-chain knowledge base, teams can see exactly who contributed each insight and build confidence in the assistant’s tone.
+- **Hackathons demand tangible proof:** Investors and judges get a single demo where wallets purchase credits, models run, and governance happens—showing that decentralized AI isn’t just slideware.
+- **Reusable boilerplate for future products:** The repo doubles as a template for any team that wants to gate ML endpoints with Stylus contracts and Privy onboarding.
+
 ## Why it matters
 - **Trustless metering:** Credits for AI usage are enforced on-chain, not by a centralized gateway.
 - **Community knowledge:** Anyone can contribute mental-health or ML tips that get surfaced directly in the app.
@@ -14,14 +20,16 @@ Mindchain AI showcases how on-chain infrastructure can gate and augment AI exper
 - **Community-driven intelligence:** Knowledge submissions are on-chain, making the chatbot’s guidance auditable and improvable by contributors.
 - **Extensible wallet gating:** Any API (vision, speech, etc.) can plug into the same authorization contract, making the repo a boilerplate for future AI/Web3 integrations.
 - **Educational value:** Serves as a reference for developers learning Stylus, ethers v6, Gemini/OpenAI integration, and cross-service orchestration in under 24 hours.
+- **Roadmap:** Anchor chatbot tone to community tips by feeding `KnowledgeShare` submissions into the AI prompt pipeline for transparent provenance.
 
 ## Feature overview
 - ✅ Stylus `purchase → balance → markUsage` flow for AI credits on Arbitrum Sepolia.
 - ✅ Knowledge submission & voting contract with tuple ABI return.
 - ✅ React experience with drawing canvas (MNIST), credit dashboard, knowledge feed, AI chat.
-- ✅ Flask MNIST model hosting with TensorFlow `model.keras` weights.
+- ✅ Privy-powered wallet onboarding with embedded wallet fallback and dropdown actions.
+- ✅ Flask MNIST inference: TensorFlow Lite runtime on `main`, full TensorFlow on `master`.
 - ✅ Gemini (and optional OpenAI) backed AI chat with on-chain credit enforcement.
-- ✅ One-click hackathon demo script & troubleshooting tips.
+- ✅ One-click hackathon demo script & troubleshooting tips
 
 ## Architecture snapshot
 ```
@@ -39,7 +47,7 @@ Stylus contracts
 |-------|------------|------------------|
 | Frontend | React 18, Vite, Tailwind, wagmi + ethers v6 | Wallet connect, credit purchase, knowledge UI, MNIST canvas, chat panel |
 | Smart contracts | Rust + Stylus SDK | Credit ledger & knowledge registry, deployed to Arbitrum Sepolia |
-| AI inference | Flask + TensorFlow | `POST /predict` endpoint serving MNIST classifier |
+| AI inference | Flask + TensorFlow Lite (`main`) / TensorFlow (`master`) | `POST /predict` endpoint serving MNIST classifier |
 | AI chat | Node/Express, Gemini SDK, optional OpenAI SDK | Validates credits, generates responses, calls `markUsage` |
 | Tooling | Cargo, npm, Python, MetaMask | Local development and contract deployment |
 
@@ -65,7 +73,8 @@ Stylus contracts
 |------|-----|---------|
 | `gpt_api/.env` | `GEMINI_API_KEY`, `OPENAI_API_KEY`, `RPC_URL`, `PRIVATE_KEY`, `PORT` | AI chat credentials & chain connection |
 | `mnist-draw/src/utils/contracts.ts` | `AUTHORIZATION`, `KNOWLEDGE_PUBLISH`, `API_URL` | Contract addresses and ML API base URL |
-| `mnist_api/` | uses `model.keras` | No envs required by default |
+| `mnist-draw/.env` | `VITE_PRIVY_APP_ID` | Privy App ID for the wallet connect flow |
+| `mnist_api/` | `model.tflite` (main) / `model.keras` (master) | No envs required by default |
 
 **Important:** never commit real API keys or private keys. `.gitignore` already excludes `.env` files.
 
@@ -81,6 +90,10 @@ tmux new-session -d -s gpt-api "cd gpt_api && npm run start"
 cd mnist-draw
 npm install
 npm run dev -- --host   # http://localhost:5173
+```
+Create a `mnist-draw/.env` file (or export variables) with:
+```
+VITE_PRIVY_APP_ID=your_privy_app_id
 ```
 Hit `Ctrl+C` or `tmux kill-session -t <name>` to stop each service.
 
@@ -122,8 +135,16 @@ export const API_URL = "http://127.0.0.1:5000"; // Flask MNIST API
 cd mnist_api
 python3 app.py
 ```
-- Loads `model.keras` and exposes `POST /predict` (28×28 JSON array in, digit out).
-- Requires `tensorflow`, `flask`, `flask-cors` (already installed via pip `--user`).
+- `main` branch loads `model.tflite` via the TensorFlow Lite runtime—small enough for Render’s Starter plan.
+- `master` branch keeps the original `model.keras` + full TensorFlow stack for local experiments.
+- Both expose `POST /predict` (28×28 JSON array in, digit out) with identical request/response shapes.
+- Install dependencies with `pip install -r requirements.txt` from the respective branch (Lite vs. full TensorFlow).
+
+### Production vs. local MNIST runtimes
+- **Why the switch?** Render’s free tier provides ~512 MB RAM; the full TensorFlow runtime plus `model.keras` exceeded that, so Gunicorn workers were OOM-killed and the service returned 502.
+- **Production (`main`):** ships a 226 KB `model.tflite` + `tflite-runtime`, keeping memory tiny so the API stays alive on Render.
+- **Local / heavy (`master`):** retains full TensorFlow for developers who want to retrain, fine-tune, or debug with the original Keras model.
+- **Branch workflow:** default deploys come from `main`. Check out `master` only when you need the heavier stack (`git checkout master`), then switch back to `main` before pushing to production.
 
 ## GPT API (Gemini / OpenAI bridge)
 ```bash
@@ -144,7 +165,7 @@ PORT=8000
 - Calls `markUsage(ethAddress)` after each successful reply.
 
 ## Data & models
-- **MNIST digits:** pre-trained CNN stored at `mnist_api/model.keras`. Training notebook lives in `trainer/` if you want to retrain.
+- **MNIST digits:** pre-trained CNN checkpoint stored as `mnist_api/model.tflite` on `main` (and `model.keras` on `master`). Training notebook lives in `trainer/` if you want to retrain.
 - **Knowledge prompts:** curated by the community through the `KnowledgeShare` contract. Initial submissions can be seeded via script or manual UI forms.
 - **AI chat prompt engineering:** currently generic but easily swapped with the mental health scaffolding from prior projects (see `gpt_api/src/main.js → generateResponse`).
 
