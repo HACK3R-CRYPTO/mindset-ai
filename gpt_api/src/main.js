@@ -15,7 +15,6 @@ const {
   PRIVATE_KEY,
   RPC_URL,
   PORT,
-  ALLOWED_ORIGIN,
 } = process.env;
 
 const looksLikePlaceholder = (value) =>
@@ -76,26 +75,7 @@ const generalKnowledgeSentences = [
 
 const app = express();
 app.use(express.json());
-
-const normalizeOrigins = (originValue) => {
-  if (!originValue) return undefined;
-  return originValue
-    .split(',')
-    .map((entry) => entry.trim())
-    .filter(Boolean);
-};
-
-const corsOrigins = normalizeOrigins(ALLOWED_ORIGIN);
-app.use(
-  cors(
-    corsOrigins
-      ? {
-          origin: corsOrigins,
-          credentials: true,
-        }
-      : undefined,
-  ),
-);
+app.use(cors());
 
 const provider = new JsonRpcProvider(RPC_URL);
 const wallet = new Wallet(PRIVATE_KEY, provider);
