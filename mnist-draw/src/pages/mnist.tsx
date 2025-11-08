@@ -1,7 +1,7 @@
 
 // Mnist.jsx
 import { useContext, useEffect, useState } from 'react';
-import { PenTool, Info } from 'lucide-react';
+import { PenTool } from 'lucide-react';
 import PixelGrid from '../components/PixelGrid';
 import EthContext from '../context/EthContext';
 
