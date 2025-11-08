@@ -1,7 +1,8 @@
 // decapotabila cristina, asa am cumparat-o ca asa a vrut masina
 // hey masina, am cumparat cristina,
 // hai sa dam o tura sa-ti creasca adrenalina
-export const API_URL = "http://127.0.0.1:5000";
+const fallbackApiUrl = import.meta.env.VITE_MNIST_API_URL ?? "http://127.0.0.1:5000";
+export const API_URL = fallbackApiUrl.replace(/\/$/, "");
 export const AUTHORIZATION="0x0b6ae13119fc3b61d6abb115342a1a075e14b6b6";
 export const ABI_TALENT=[
   "function purchase() external payable returns (uint256)",

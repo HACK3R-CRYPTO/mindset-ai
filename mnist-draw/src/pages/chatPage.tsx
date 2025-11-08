@@ -8,6 +8,8 @@ interface Message {
   content: string;
 }
 
+const GPT_API_URL = (import.meta.env.VITE_GPT_API_URL ?? 'http://localhost:8000').replace(/\/$/, '');
+
 const ChatPage: React.FC = () => {
   const { isAuthenticated, address, balance, setBalance } = useContext(EthContext);
   const [inputMessage, setInputMessage] = useState('');
@@ -38,7 +40,7 @@ const ChatPage: React.FC = () => {
     setChatHistory((prev) => [...prev, { sender: 'user', content: inputMessage }]);
 
     try {
-      const response = await fetch('http://localhost:8000/query-ai', {
+      const response = await fetch(`${GPT_API_URL}/query-ai`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

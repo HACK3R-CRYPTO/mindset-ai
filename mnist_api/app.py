@@ -2,11 +2,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
+import os
 
 app = Flask(__name__)
 
-# Configure CORS to allow requests from Vite's localhost
-CORS(app, resources={r"/predict": {"origins": "http://localhost:5173"}})
+# Configure CORS to allow requests from configured origin(s)
+allowed_origin = os.getenv('API_ALLOWED_ORIGIN', '*')
+CORS(app, resources={r"/predict": {"origins": allowed_origin}})
 
 # Load the MNIST model
 model = tf.keras.models.load_model('model.keras')
