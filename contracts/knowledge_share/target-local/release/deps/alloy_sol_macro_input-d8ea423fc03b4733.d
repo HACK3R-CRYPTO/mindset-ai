@@ -1,0 +1,10 @@
+/home/ogazboiz/the-real-openai/contracts/knowledge_share/target-local/release/deps/liballoy_sol_macro_input-d8ea423fc03b4733.rmeta: /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/lib.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/attr.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/input.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/expander.rs
+
+/home/ogazboiz/the-real-openai/contracts/knowledge_share/target-local/release/deps/liballoy_sol_macro_input-d8ea423fc03b4733.rlib: /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/lib.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/attr.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/input.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/expander.rs
+
+/home/ogazboiz/the-real-openai/contracts/knowledge_share/target-local/release/deps/alloy_sol_macro_input-d8ea423fc03b4733.d: /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/lib.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/attr.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/input.rs /home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/expander.rs
+
+/home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/lib.rs:
+/home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/attr.rs:
+/home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/input.rs:
+/home/ogazboiz/.cargo/registry/src/index.crates.io-6f17d22bba15001f/alloy-sol-macro-input-0.7.6/src/expander.rs:

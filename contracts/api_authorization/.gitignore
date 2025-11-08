@@ -1,0 +1,4 @@
+/target
+target-local/
+.env
+.private-key
