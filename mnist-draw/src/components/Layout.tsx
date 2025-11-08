@@ -96,7 +96,7 @@ export default function Layout() {
     <EthContext.Provider
       value={{ isAuthenticated, balance: balance ?? 0n, setBalance, address }}
     >
-      <div className="relative min-h-screen w-full bg-[#05060F] text-slate-100">
+      <div className="relative flex min-h-screen w-full flex-col bg-[#05060F] text-slate-100">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 top-[-10rem] h-[420px] w-[420px] rounded-full bg-sky-500/20 blur-3xl" />
           <div className="absolute right-[-6rem] top-32 h-[360px] w-[360px] rounded-full bg-violet-500/10 blur-3xl" />
