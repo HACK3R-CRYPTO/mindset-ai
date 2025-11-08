@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: mindchain-mnist-api
+    rootDir: mnist_api
+    runtime: python
+    pythonVersion: 3.11.8
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    plan: starter
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_RUN_PORT
+        value: "5000"
+      - key: API_ALLOWED_ORIGIN
+        sync: false
+      - key: MODEL_PATH
+        value: model.keras
